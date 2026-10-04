@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="itemInput" placeholder="내용 입력">
+    <button id="addBtn">추가</button>
+
+    <ul id="itemList"></ul>
+
+    <script>
+        window.onload = function () {
+        const input = document.getElementById("itemInput");
+        const addBtn = document.getElementById("addBtn");
+        const list = document.getElementById("itemList");
+
+        addBtn.addEventListener("click", function () {
+            const li = document.createElement("li");
+            li.innerText = input.value;
+            list.appendChild(li);
+            input.value = "";
+        });
+    }
+    const li = document.createElement("li");
+
+    const span = document.createElement("span");
+    span.innerText = input.value;
+
+    const delBtn = document.createElement("button");
+    delBtn.innerText = "삭제";
+    delBtn.addEventListener("click", function () {
+    li.remove();
+    });
+
+    li.appendChild(span);
+    li.appendChild(delBtn);
+    list.appendChild(li);
+    input.value = "";
+    </script>
+    
+</body>
+</html>
