@@ -64,6 +64,7 @@
     ];
 
     let nextId = 4;
+    let editId = null;
 
     function render() {
       const tbody = document.getElementById("movieTable");
@@ -84,6 +85,9 @@
         const editBtn = document.createElement("button");
         editBtn.innerText = "수정";
         editBtn.className = "edit-btn";
+        editBtn.addEventListener("click", function () {
+          startEdit(movie.id);
+        });
 
         const delBtn = document.createElement("button");
         delBtn.innerText = "삭제";
@@ -130,11 +134,59 @@
       render();
     }
 
+    function startEdit(id) {
+      const movie = movies.find(function (m) {
+        return m.id === id;
+      });
+
+      document.getElementById("title").value = movie.title;
+      document.getElementById("director").value = movie.director;
+      document.getElementById("genre").value = movie.genre;
+      document.getElementById("year").value = movie.year;
+      document.getElementById("rating").value = movie.rating;
+
+      editId = id;
+      document.getElementById("saveBtn").innerText = "저장";
+      document.getElementById("cancelBtn").style.display = "inline-block";
+    }
+
+    function updateMovie() {
+      const data = getFormData();
+
+      const movie = movies.find(function (m) {
+        return m.id === editId;
+      });
+
+      movie.title = data.title;
+      movie.director = data.director;
+      movie.genre = data.genre;
+      movie.year = data.year;
+      movie.rating = data.rating;
+
+      resetEditMode();
+      render();
+    }
+
+    function resetEditMode() {
+      editId = null;
+      clearForm();
+      document.getElementById("saveBtn").innerText = "Add";
+      document.getElementById("cancelBtn").style.display = "none";
+    }
+
     window.onload = function () {
       render();
 
       document.getElementById("saveBtn").addEventListener("click", function () {
-        addMovie();
+        if (editId === null) {
+          addMovie();
+        } else {
+          updateMovie();
+        }
+      });
+
+      document.getElementById("cancelBtn").addEventListener("click", function () {
+        resetEditMode();
       });
     };
   </script>
