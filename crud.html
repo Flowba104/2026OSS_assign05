@@ -92,6 +92,9 @@
         const delBtn = document.createElement("button");
         delBtn.innerText = "삭제";
         delBtn.className = "del-btn";
+        delBtn.addEventListener("click", function () {
+          deleteMovie(movie.id);
+        });
 
         btnTd.appendChild(editBtn);
         btnTd.appendChild(delBtn);
@@ -172,6 +175,24 @@
       clearForm();
       document.getElementById("saveBtn").innerText = "Add";
       document.getElementById("cancelBtn").style.display = "none";
+    }
+
+    function deleteMovie(id) {
+      if (!confirm("삭제하시겠습니까?")) {
+        return;
+      }
+
+      const index = movies.findIndex(function (m) {
+        return m.id === id;
+      });
+
+      movies.splice(index, 1);
+
+      if (editId === id) {
+        resetEditMode();
+      }
+
+      render();
     }
 
     window.onload = function () {
