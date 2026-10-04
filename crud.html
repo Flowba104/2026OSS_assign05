@@ -41,11 +41,8 @@
       </div>
       <div class="btn-area">
         <button type="button" id="saveBtn">Add</button>
+        <button type="button" id="cancelBtn" style="display: none;">취소</button>
       </div>
-        <div class="btn-area">
-            <button type="button" id="saveBtn">Add</button>
-            <button type="button" id="cancelBtn" style="display: none;">취소</button>
-        </div>
     </form>
 
     <table>
@@ -58,80 +55,87 @@
       <tbody id="movieTable"></tbody>
     </table>
   </div>
-  
+
   <script>
     let movies = [
-        { id: 1, title: "인터스텔라", director: "Christopher Nolan", genre: "SF", year: 2014, rating: 9.5 },
-        { id: 2, title: "기생충", director: "봉준호", genre: "드라마", year: 2019, rating: 9.0 },
-        { id: 3, title: "라라랜드", director: "Damien Chazelle", genre: "뮤지컬", year: 2016, rating: 8.5 }
+      { id: 1, title: "인터스텔라", director: "Christopher Nolan", genre: "SF", year: 2014, rating: 9.5 },
+      { id: 2, title: "기생충", director: "봉준호", genre: "드라마", year: 2019, rating: 9.0 },
+      { id: 3, title: "라라랜드", director: "Damien Chazelle", genre: "뮤지컬", year: 2016, rating: 8.5 }
     ];
+
     let nextId = 4;
+
     function render() {
-        const tbody = document.getElementById("movieTable");
-        tbody.innerHTML = "";
+      const tbody = document.getElementById("movieTable");
+      tbody.innerHTML = "";
 
-        movies.forEach(function (movie) {
-            const tr = document.createElement("tr");
+      movies.forEach(function (movie) {
+        const tr = document.createElement("tr");
 
-            const values = [movie.id, movie.title, movie.director, movie.genre, movie.year, movie.rating];
-            values.forEach(function (value) {
-            const td = document.createElement("td");
-            td.innerText = value;
-            tr.appendChild(td);
-            });
-
-            const btnTd = document.createElement("td");
-
-            const editBtn = document.createElement("button");
-            editBtn.innerText = "수정";
-            editBtn.className = "edit-btn";
-
-            const delBtn = document.createElement("button");
-            delBtn.innerText = "삭제";
-            delBtn.className = "del-btn";
-
-            btnTd.appendChild(editBtn);
-            btnTd.appendChild(delBtn);
-            tr.appendChild(btnTd);
-
-            tbody.appendChild(tr);
+        const values = [movie.id, movie.title, movie.director, movie.genre, movie.year, movie.rating];
+        values.forEach(function (value) {
+          const td = document.createElement("td");
+          td.innerText = value;
+          tr.appendChild(td);
         });
+
+        const btnTd = document.createElement("td");
+
+        const editBtn = document.createElement("button");
+        editBtn.innerText = "수정";
+        editBtn.className = "edit-btn";
+
+        const delBtn = document.createElement("button");
+        delBtn.innerText = "삭제";
+        delBtn.className = "del-btn";
+
+        btnTd.appendChild(editBtn);
+        btnTd.appendChild(delBtn);
+        tr.appendChild(btnTd);
+
+        tbody.appendChild(tr);
+      });
     }
+
     function getFormData() {
-  return {
-    title: document.getElementById("title").value.trim(),
-    director: document.getElementById("director").value.trim(),
-    genre: document.getElementById("genre").value,
-    year: Number(document.getElementById("year").value),
-    rating: Number(document.getElementById("rating").value)
-  };
-}
+      return {
+        title: document.getElementById("title").value.trim(),
+        director: document.getElementById("director").value.trim(),
+        genre: document.getElementById("genre").value,
+        year: Number(document.getElementById("year").value),
+        rating: Number(document.getElementById("rating").value)
+      };
+    }
 
     function clearForm() {
-    document.getElementById("movieForm").reset();
+      document.getElementById("movieForm").reset();
     }
 
     function addMovie() {
-    const data = getFormData();
+      const data = getFormData();
 
-    const newMovie = {
+      const newMovie = {
         id: nextId,
         title: data.title,
         director: data.director,
         genre: data.genre,
         year: data.year,
         rating: data.rating
-    };
+      };
 
-    movies.push(newMovie);
-    nextId++;
+      movies.push(newMovie);
+      nextId++;
 
-    clearForm();
-    render();
+      clearForm();
+      render();
     }
 
     window.onload = function () {
-    render();
+      render();
+
+      document.getElementById("saveBtn").addEventListener("click", function () {
+        addMovie();
+      });
     };
   </script>
 </body>
